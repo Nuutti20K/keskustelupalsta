@@ -9,3 +9,28 @@
 * Sovelluksessa on käyttäjäsivut, jotka näyttävät tilastoja ja käyttäjän lisäämät keskustelut.
 * Käyttäjä pystyy valitsemaan keskustelulle yhden tai useamman luokittelun (esim. keskustelun aihe ja kenelle keskutelu on suunnattu).
 * Käyttäjä pystyy lisäämään viestejä ja kuvia keskusteluun.
+
+## Sovelluksen nykyinen tilanne
+
+* Käyttäjä pystyy luomaan tunnuksen ja kirjautumaan sisään ja ulos sovelluksesta
+	* Salasanassa ja tunnuksessa ei ole vielä merkki- tai pituusrajoituksia
+
+## Sovelluksen asennus
+
+Asenna `flask` -kirjasto:
+
+```
+pip install flask
+```
+
+Luo tietokannan taulut:
+
+```
+sqlite3 database.db < schema.sql
+```
+
+Sovelluksen voi käynnistää komennolla:
+
+```
+flask run
+```
