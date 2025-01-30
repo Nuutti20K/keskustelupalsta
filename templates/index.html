@@ -6,7 +6,12 @@
 
 <body>
   <h1>Kesukstelupalsta</h1>
+  {% if session.user_id %}
+  <a href="/logout">Kirjaudu ulos</a>
+  {% else %}
+  <a href="/login">Kirjaudu sisään</a>
   <a href="/register">Luo tunnus</a>
+  {% endif %}
 </body>
 
 </html>

@@ -1,9 +1,11 @@
 import sqlite3
 from flask import Flask
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, session
+import config
 import users
 
 app = Flask(__name__)
+app.secret_key = config.secret_key
 
 @app.route("/")
 def index():
@@ -25,4 +27,28 @@ def create():
     except sqlite3.IntegrityError:
         return "VIRHE: tunnus on jo varattu"
     
+    return redirect("/")
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "GET":
+        return render_template("login.html")
+    
+    if request.method == "POST":    
+        username = request.form["username"]
+        password = request.form["password"]
+
+        user_id = users.check_login(username, password)
+        if user_id:
+            session["user_id"] = user_id
+            session["username"] = username
+            return redirect("/")
+        else:
+            return "VIRHE: väärä tunnut tai salasana"
+
+@app.route("/logout")
+def logout():
+    if "user_id" in session:
+        del session["user_id"]
+        del session["username"]
     return redirect("/")
