@@ -1,17 +1,14 @@
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Uusi keskustelu</title>
-</head>
+{% block title %}Uusi keskustelu{% endblock %}
 
-<body>
-  <form action="/create_item" method="post">
-    <p>
-      <label for="username">Otsikko:</label> <br />
-      <input type="text" name="title" maxlength="50" required />
-    </p>
-    <input type="submit" value="Luo keskustelu" />
-  </form>
-</body>
-
-</html>
+{% block content %}
+<h2>Uusi keskustelu</h2>
+<form action="/create_item" method="post">
+  <p>
+    <label for="username">Otsikko:</label> <br />
+    <input type="text" name="title" maxlength="50" required />
+  </p>
+  <input type="submit" value="Luo keskustelu" />
+</form>
+{% endblock %}

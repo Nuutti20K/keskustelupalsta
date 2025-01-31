@@ -1,22 +1,19 @@
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Kirjautuminen</title>
-</head>
+{% block title %}Kirjaudu sisään{% endblock %}
 
-<body>
-  <h2>Uusi keskustelu</h2>  
-  <form action="/login" method="post">
-    <p>
-      <label for="username">Tunnus:</label> <br />
-      <input type="text" name="username" />
-    </p>
-    <p>
-      <label for="password">Salasana:</label> <br />
-      <input type="password" name="password" />
-    </p>
-    <input type="submit" value="Kirjaudu" />
-  </form>
-</body>
+{% block content %}
+<h2>Kirjaudu sisään</h2>
 
-</html>
+<form action="/login" method="post">
+  <p>
+    <label for="username">Tunnus:</label> <br />
+    <input type="text" name="username" />
+  </p>
+  <p>
+    <label for="password">Salasana:</label> <br />
+    <input type="password" name="password" />
+  </p>
+  <input type="submit" value="Kirjaudu" />
+</form>
+{% endblock %}

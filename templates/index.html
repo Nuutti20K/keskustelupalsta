@@ -1,25 +1,12 @@
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Keskustelupalsta</title>
-</head>
+{% block title %}Keskustelupalsta{% endblock %}
 
-<body>
-  <h1>Kesukstelupalsta</h1>
-  <p>
-    {% if session.user_id %}
-    <a href="/logout">Kirjaudu ulos</a>
-    <a href="/new_item">Luo keskustelu</a>
-    {% else %}
-    <a href="/login">Kirjaudu sisään</a>
-    <a href="/register">Luo tunnus</a>
-    {% endif %}
-  </p> 
+{% block content %}
+<h2>Keskustelut</h2>
 
-  {% for item in items %}
-  <a href="/item{{ item.id }}">{{ item.title }}</a> <br />
-  Keskustelun luoja: {{ item.username }} <br />
-  {% endfor %}
-</body>
-
-</html>
+{% for item in items %}
+<a href="/item/{{ item.id }}">{{ item.title }}</a> <br />
+Keskustelun luoja: {{ item.username }} <br />
+{% endfor %}
+{% endblock %}

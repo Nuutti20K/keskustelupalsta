@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>{% block title %}{% endblock %}</title>
+</head>
+
+<body>
+  <h1>Keskustelupalsta</h1>
+
+  {% if session.user_id %}
+  <p>
+    Olet kirjautunut nimellä {{ session.username }}
+  </p>
+  {% endif %}
+
+  <p>
+    <a href="/">Etusivu</a> |
+  {% if session.user_id %}
+    <a href="/logout">Kirjaudu ulos</a> |
+    <a href="/new_item">Luo keskustelu</a>
+  {% else %}
+    <a href="/login">Kirjaudu sisään</a> |
+    <a href="/register">Luo tunnus</a>
+  {% endif %}
+  </p> 
+
+  {% for message in get_flashed_messages() %}
+  {{ message }}
+  {% endfor %}
+
+  {% block content %}{% endblock %}  
+</body>
+
+</html>
