@@ -14,6 +14,8 @@
 
 * Käyttäjä pystyy luomaan tunnuksen ja kirjautumaan sisään ja ulos sovelluksesta
 	* Salasanassa ja tunnuksessa ei ole vielä merkki- tai pituusrajoituksia
+* Käyttäjä pystyy lisäämään keskustelun
+* Käyttäjä näkee lisätyt keskustelut
 
 ## Sovelluksen asennus
 
