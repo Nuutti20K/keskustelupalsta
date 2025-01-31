@@ -1,15 +1,21 @@
 import sqlite3
 from flask import Flask
-from flask import render_template, request, redirect, session
+from flask import abort, render_template, request, redirect, session
 import config
+import items
 import users
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
 
+def require_login():
+    if "user_id" not in session:
+        abort(403)
+
 @app.route("/")
 def index():
-    return render_template("index.html")
+    all_items = items.get_items()
+    return render_template("index.html", items=all_items)
 
 @app.route("/register")
 def register():
@@ -29,6 +35,23 @@ def create():
     
     return redirect("/")
 
+@app.route("/new_item")
+def new_item():
+    require_login()
+    return render_template("new_item.html")
+
+@app.route("/create_item", methods=["POST"])
+def create_item():
+    require_login()
+
+    title = request.form["title"]
+    if not title or len(title) > 50:
+        abort(403)
+    user_id = session["user_id"]
+
+    items.add_item(title, user_id)
+    return redirect("/")
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
@@ -44,7 +67,7 @@ def login():
             session["username"] = username
             return redirect("/")
         else:
-            return "VIRHE: väärä tunnut tai salasana"
+            return "VIRHE: väärä tunnus tai salasana"
 
 @app.route("/logout")
 def logout():
