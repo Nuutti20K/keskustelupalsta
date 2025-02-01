@@ -84,22 +84,21 @@ def remove_item(item_id):
         else:
             return redirect("/item/" + str(item_id))
 
-@app.route("/new_item")
-def new_item():
-    require_login()
-    return render_template("new_item.html")
-
-@app.route("/create_item", methods=["POST"])
+@app.route("/new_item", methods=["GET", "POST"])
 def create_item():
     require_login()
 
-    title = request.form["title"]
-    if not title or len(title) > 50:
-        abort(403)
-    user_id = session["user_id"]
+    if request.method == "GET":
+        return render_template("new_item.html")
+    
+    if request.method == "POST":
+        title = request.form["title"]
+        if not title or len(title) > 50:
+            abort(403)
+        user_id = session["user_id"]
 
-    items.add_item(title, user_id)
-    return redirect("/")
+        items.add_item(title, user_id)
+        return redirect("/")
 
 @app.route("/find_item")
 def find_item():
