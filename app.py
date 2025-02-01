@@ -44,7 +44,10 @@ def show_item(item_id):
 
 @app.route("/edit_item/<int:item_id>", methods=["GET", "POST"])
 def edit_item(item_id):
+    require_login()
     item = items.get_item(item_id)
+    if not item:
+        abort(404)
     if item["user_id"] != session["user_id"]:
         abort(403)
     
@@ -53,6 +56,8 @@ def edit_item(item_id):
     
     if request.method == "POST":
         title = request.form["title"]
+        if not title or len(title) > 50:
+            abort(403)
         items.update_item(item["id"], title)
         return redirect("/item/" + str(item["id"]))
 
