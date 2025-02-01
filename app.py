@@ -58,8 +58,28 @@ def edit_item(item_id):
         title = request.form["title"]
         if not title or len(title) > 50:
             abort(403)
-        items.update_item(item["id"], title)
-        return redirect("/item/" + str(item["id"]))
+        items.update_item(item_id, title)
+        return redirect("/item/" + str(item_id))
+    
+@app.route("/remove_item/<int:item_id>", methods=["GET", "POST"])
+def remove_item(item_id):
+    require_login()
+
+    item = items.get_item(item_id)
+    if not item:
+        abort(404)
+    if item["user_id"] != session["user_id"]:
+        abort(403)
+    
+    if request.method == "GET":
+        return render_template("remove_item.html", item=item)
+    
+    if request.method == "POST":
+        if "remove" in request.form:
+            items.remove_item(item_id)
+            return redirect("/")
+        else:
+            return redirect("/item/" + str(item_id))
 
 @app.route("/new_item")
 def new_item():
