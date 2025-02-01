@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ item.title }}{% endblock %}
+
+{% block content %}
+<h2>{{ item.title }}</h2>
+{% if session.user_id == item.user_id %}
+<p>
+  <a href="/edit_item/{{ item.id }}">Muokkaa otsikkoa</a>
+</p>
+{% endif %}
+{% endblock %}

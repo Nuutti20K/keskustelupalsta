@@ -35,6 +35,27 @@ def create():
     
     return redirect("/")
 
+@app.route("/item/<int:item_id>")
+def show_item(item_id):
+    item = items.get_item(item_id)
+    if not item:
+        abort(404)
+    return render_template("show_item.html", item=item)
+
+@app.route("/edit_item/<int:item_id>", methods=["GET", "POST"])
+def edit_item(item_id):
+    item = items.get_item(item_id)
+    if item["user_id"] != session["user_id"]:
+        abort(403)
+    
+    if request.method == "GET":
+        return render_template("edit_item.html", item=item)
+    
+    if request.method == "POST":
+        title = request.form["title"]
+        items.update_item(item["id"], title)
+        return redirect("/item/" + str(item["id"]))
+
 @app.route("/new_item")
 def new_item():
     require_login()
