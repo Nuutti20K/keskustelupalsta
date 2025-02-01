@@ -101,6 +101,16 @@ def create_item():
     items.add_item(title, user_id)
     return redirect("/")
 
+@app.route("/find_item")
+def find_item():
+    query = request.args.get("query")
+    if query:
+        results = items.find_items(query)
+    else:
+        query = ""
+        results = []
+    return render_template("find_item.html", query=query, results=results)
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
