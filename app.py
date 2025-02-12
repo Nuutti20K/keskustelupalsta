@@ -110,6 +110,20 @@ def find_item():
         results = []
     return render_template("find_item.html", query=query, results=results)
 
+@app.route("/create_message", methods=["POST"])
+def create_message():
+    require_login()
+
+    content = request.form["content"]
+    item_id = request.form["item_id"]
+    item = items.get_item(item_id)
+    if not item:
+        abort(403)
+    user_id = session["user_id"]
+
+    items.add_message(content, user_id, item_id)
+    return redirect("/item/" + str(item_id))
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":

@@ -10,4 +10,16 @@
   <a href="/remove_item/{{ item.id }}">Poista keskustelu</a>
 </p>
 {% endif %}
+
+
+
+{% if session.user_id %}
+<h3>Lisää viesti</h3>
+<form action="/create_message" method="post">
+  <label for="content">Viesti:</label>
+  <textarea type="text" name="content" rows="4" cols="50" maxlength="200" required></textarea>
+  <input type="hidden" name="item_id" value="{{ item.id }}">
+  <input type="submit" value="Lähetä" />
+</form>
+{% endif %}
 {% endblock %}

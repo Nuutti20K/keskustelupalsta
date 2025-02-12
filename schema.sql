@@ -9,3 +9,10 @@ CREATE TABLE items (
     title TEXT,
     user_id INTEGER REFERENCES users
 )
+
+CREATE TABLE messages (
+    id INTEGER PRIMARY KEY,
+    content TEXT,
+    user_id INTEGER REFERENCES users,
+    item_id INTEGER REFERENCES items
+)

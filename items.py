@@ -38,3 +38,8 @@ def find_items(query):
              ORDER BY id DESC"""
     like = "%" + query + "%"
     return db.query(sql, [like])
+
+def add_message(content, user_id, item_id):
+    sql = """INSERT INTO messages (content, user_id, item_id)
+             VALUES (?, ?, ?)"""
+    db.execute(sql, [content, user_id, item_id])
