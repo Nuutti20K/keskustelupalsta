@@ -59,7 +59,8 @@ def show_user(user_id):
     if not user:
         abort(404)
     user_items = users.get_items(user_id)
-    return render_template("show_user.html", user=user, items=user_items)
+    user_messages = users.get_messages(user_id)
+    return render_template("show_user.html", user=user, items=user_items, messages=user_messages)
 
 @app.route("/edit_item/<int:item_id>", methods=["GET", "POST"])
 def edit_item(item_id):

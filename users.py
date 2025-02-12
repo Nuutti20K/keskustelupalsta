@@ -11,6 +11,10 @@ def get_items(user_id):
     sql = "SELECT id, title FROM items WHERE user_id = ? ORDER BY id DESC"
     return db.query(sql, [user_id])
 
+def get_messages(user_id):
+    sql = "SELECT id, content FROM messages WHERE user_id = ? ORDER BY id DESC"
+    return db.query(sql, [user_id])
+
 def create_user(username, password):
     password_hash = generate_password_hash(password)
     sql = "INSERT INTO users (username, password_hash) VALUES (?, ?)"
@@ -28,4 +32,3 @@ def check_login(username, password):
         return user_id
     else:
         return None
-
