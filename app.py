@@ -53,6 +53,14 @@ def show_item(item_id):
     messages = items.get_messages(item_id)
     return render_template("show_item.html", item=item, messages=messages)
 
+@app.route("/user/<int:user_id>")
+def show_user(user_id):
+    user = users.get_user(user_id)
+    if not user:
+        abort(404)
+    user_items = users.get_items(user_id)
+    return render_template("show_user.html", user=user, items=user_items)
+
 @app.route("/edit_item/<int:item_id>", methods=["GET", "POST"])
 def edit_item(item_id):
     require_login()
