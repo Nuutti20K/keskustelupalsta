@@ -10,7 +10,12 @@
   <a href="/remove_item/{{ item.id }}">Poista keskustelu</a>
 </p>
 {% endif %}
-
+<hr />
+{% for message in messages %}
+<a href="/user/{{ message.user_id }}">{{ message.username }}</a> <br />
+{{ message.content }}
+<hr />
+{% endfor %}
 
 
 {% if session.user_id %}

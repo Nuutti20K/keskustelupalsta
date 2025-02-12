@@ -43,3 +43,10 @@ def add_message(content, user_id, item_id):
     sql = """INSERT INTO messages (content, user_id, item_id)
              VALUES (?, ?, ?)"""
     db.execute(sql, [content, user_id, item_id])
+
+def get_messages(item_id):
+    sql = """SELECT messages.content, messages.user_id, users.username
+             FROM messages, users
+             WHERE messages.item_id = ? AND messages.user_id = users.id
+             ORDER BY messages.id DESC"""
+    return db.query(sql, [item_id])

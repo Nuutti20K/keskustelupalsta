@@ -50,7 +50,8 @@ def show_item(item_id):
     item = items.get_item(item_id)
     if not item:
         abort(404)
-    return render_template("show_item.html", item=item)
+    messages = items.get_messages(item_id)
+    return render_template("show_item.html", item=item, messages=messages)
 
 @app.route("/edit_item/<int:item_id>", methods=["GET", "POST"])
 def edit_item(item_id):

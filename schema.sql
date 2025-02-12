@@ -8,7 +8,7 @@ CREATE TABLE items (
     id INTEGER PRIMARY KEY,
     title TEXT,
     user_id INTEGER REFERENCES users
-)
+);
 
 CREATE TABLE messages (
     id INTEGER PRIMARY KEY,

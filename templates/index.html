@@ -3,10 +3,10 @@
 {% block title %}Keskustelupalsta{% endblock %}
 
 {% block content %}
-<h2>Keskustelut</h2>
+<h2>Keskustelut</h2> <hr />
 
 {% for item in items %}
 <a href="/item/{{ item.id }}">{{ item.title }}</a> <br />
-Keskustelun luoja: {{ item.username }} <br />
+Keskustelun luoja: {{ item.username }} <hr />
 {% endfor %}
 {% endblock %}
