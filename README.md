@@ -16,8 +16,10 @@
 	* Salasanassa ja tunnuksessa ei ole vielä merkki- tai pituusrajoituksia
 * Käyttäjä pystyy lisäämään, muokkaamaan ja poistamaan keskusteluja
 * Käyttäjä näkee lisätyt keskustelut
-	* Näkymä on toistaiseksi melko karu	
 * Käyttäjä pystyy etsiä keskusteluja otsikolla
+* Käyttäjä pystyy lisäämään viestejä keskusteluun
+* Sovelluksessa on käyttäjäsivut
+	* Sivuilla ei vielä näy muuta kuin käyttäjän nimi
 
 ## Sovelluksen asennus
 
