@@ -1,3 +1,4 @@
+import secrets
 import sqlite3
 from flask import Flask
 from flask import abort, flash, render_template, request, redirect, session
@@ -10,6 +11,12 @@ app.secret_key = config.secret_key
 
 def require_login():
     if "user_id" not in session:
+        abort(403)
+
+def check_csrf():
+    if "csrf_token" not in request.form:
+        abort(403)
+    if request.form["csrf_token"] != session["csrf_token"]:
         abort(403)
 
 @app.route("/")
@@ -48,6 +55,7 @@ def show_item(item_id):
 @app.route("/edit_item/<int:item_id>", methods=["GET", "POST"])
 def edit_item(item_id):
     require_login()
+
     item = items.get_item(item_id)
     if not item:
         abort(404)
@@ -58,6 +66,7 @@ def edit_item(item_id):
         return render_template("edit_item.html", item=item)
     
     if request.method == "POST":
+        check_csrf()
         title = request.form["title"]
         if not title or len(title) > 50:
             abort(403)
@@ -78,6 +87,7 @@ def remove_item(item_id):
         return render_template("remove_item.html", item=item)
     
     if request.method == "POST":
+        check_csrf()
         if "remove" in request.form:
             items.remove_item(item_id)
             return redirect("/")
@@ -92,6 +102,7 @@ def create_item():
         return render_template("new_item.html")
     
     if request.method == "POST":
+        check_csrf()
         title = request.form["title"]
         if not title or len(title) > 50:
             abort(403)
@@ -113,6 +124,7 @@ def find_item():
 @app.route("/create_message", methods=["POST"])
 def create_message():
     require_login()
+    check_csrf()
 
     content = request.form["content"]
     item_id = request.form["item_id"]
@@ -137,6 +149,7 @@ def login():
         if user_id:
             session["user_id"] = user_id
             session["username"] = username
+            session["csrf_token"] = secrets.token_hex(16)
             return redirect("/")
         else:
             flash("VIRHE: väärä tunnus tai salasana")
@@ -147,4 +160,5 @@ def logout():
     if "user_id" in session:
         del session["user_id"]
         del session["username"]
+        del session["csrf_token"]
     return redirect("/")

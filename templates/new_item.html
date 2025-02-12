@@ -9,6 +9,7 @@
     <label for="username">Otsikko:</label> <br />
     <input type="text" name="title" maxlength="50" required />
   </p>
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="submit" value="Luo keskustelu" />
 </form>
 {% endblock %}

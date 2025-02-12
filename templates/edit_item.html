@@ -10,6 +10,7 @@
     <label for="title">Uusi otsikko:</label> <br />
     <input type="text" name="title" value="{{ item.title }}" maxlength="50" required />
   </p>
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="submit" value="Päivitä keskustelu" />
 </form>
 <p>
