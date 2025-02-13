@@ -7,7 +7,7 @@
 <form action="/edit_message/{{ message.id }}" method="post">
   <p>
     <label for="content">Uusi viesti:</label> <br />
-    <textarea type="text" name="content" rows="4" cols="50" maxlength="200" required>{{ message.content }}</textarea>
+    <textarea type="text" name="content" id="content" rows="4" cols="50" maxlength="200" required>{{ message.content }}</textarea>
   </p>
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="submit" value="Päivitä viesti" />

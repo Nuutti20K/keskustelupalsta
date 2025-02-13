@@ -6,8 +6,8 @@
 <h2>Uusi keskustelu</h2>
 <form action="/new_item" method="post">
   <p>
-    <label for="username">Otsikko:</label> <br />
-    <input type="text" name="title" maxlength="50" required />
+    <label for="title">Otsikko:</label> <br />
+    <input type="text" name="title" id="title" maxlength="50" required />
   </p>
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="submit" value="Luo keskustelu" />

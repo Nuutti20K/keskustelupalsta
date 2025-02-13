@@ -14,7 +14,7 @@
 <h3>Lisää viesti</h3>
 <form action="/create_message" method="post">
   <label for="content">Viesti:</label>
-  <textarea type="text" name="content" rows="4" cols="50" maxlength="200" required></textarea>
+  <textarea type="text" name="content" id="content" rows="4" cols="50" maxlength="200" required></textarea>
   <input type="hidden" name="item_id" value="{{ item.id }}">
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="submit" value="Lähetä" />
