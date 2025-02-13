@@ -16,3 +16,16 @@ CREATE TABLE messages (
     user_id INTEGER REFERENCES users,
     item_id INTEGER REFERENCES items ON DELETE CASCADE
 )
+
+CREATE TABLE classes (
+    id INTEGER PRIMARY KEY,
+    title TEXT,
+    value TEXT
+);
+
+CREATE TABLE item_classes (
+    id INTEGER PRIMARY KEY,
+    item_id INTEGER REFERENCES items,
+    title TEXT,
+    value TEXT
+);
