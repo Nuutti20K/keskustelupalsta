@@ -25,7 +25,7 @@ CREATE TABLE classes (
 
 CREATE TABLE item_classes (
     id INTEGER PRIMARY KEY,
-    item_id INTEGER REFERENCES items,
+    item_id INTEGER REFERENCES items ON DELETE CASCADE,
     title TEXT,
     value TEXT
 );

@@ -1,15 +1,30 @@
 {% extends "layout.html" %}
 
-{% block title %}Otsikon muokkaus{% endblock %}
+{% block title %}Keskustelun muokkaus{% endblock %}
 
 {% block content %}
 <h2>{{ item.title }}</h2>
-<h3>Otsikon muokkaus</h3>
+<h3>Keskustelun muokkaus</h3>
 <form action="/edit_item/{{ item.id }}" method="post">
   <p>
     <label for="title">Uusi otsikko:</label> <br />
     <input type="text" name="title" id="title" value="{{ item.title }}" maxlength="50" required />
   </p>
+  {% for class in all_classes %}
+  <p>
+    <label for="class{{ class }}">{{ class }}</a>: <br />
+    <select name="classes" id="class{{ class}}">
+      <option value="">(valitse)</option>
+    {% for option in all_classes[class] %}
+      {% if classes[class] == option %}
+      <option value="{{ class }}:{{ option }}" selected>{{ option }}</option>
+      {% else %}
+      <option value="{{ class }}:{{ option }}">{{ option }}</option>
+      {% endif %}
+    {% endfor %}
+    </select>
+  </p>
+  {% endfor %}
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="submit" value="Päivitä keskustelu" />
 </form>

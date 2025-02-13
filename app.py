@@ -74,14 +74,34 @@ def edit_item(item_id):
         abort(403)
     
     if request.method == "GET":
-        return render_template("edit_item.html", item=item)
+        all_classes = items.get_all_classes()
+        classes = {}
+        for my_class in all_classes:
+            classes[my_class] = ""
+        for entry in items.get_classes(item_id):
+            classes[entry["title"]] = entry["value"]
+        
+        return render_template("edit_item.html", item=item, classes=classes, all_classes=all_classes)
     
     if request.method == "POST":
         check_csrf()
         title = request.form["title"]
         if not title or len(title) > 50:
             abort(403)
-        items.update_item(item_id, title)
+
+        all_classes = items.get_all_classes()
+
+        classes = []
+        for entry in request.form.getlist("classes"):
+            if entry:
+                class_title, class_value = entry.split(":")
+                if class_title not in all_classes:
+                    abort(403)
+                if class_value not in all_classes[class_title]:
+                    abort(403)
+                classes.append((class_title, class_value))
+
+        items.update_item(item_id, title, classes)
         return redirect("/item/" + str(item_id))
     
 @app.route("/edit_message/<int:message_id>", methods=["GET", "POST"])
