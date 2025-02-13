@@ -50,8 +50,9 @@ def show_item(item_id):
     item = items.get_item(item_id)
     if not item:
         abort(404)
+    classes = items.get_classes(item_id)
     messages = items.get_messages(item_id)
-    return render_template("show_item.html", item=item, messages=messages)
+    return render_template("show_item.html", item=item, classes=classes, messages=messages)
 
 @app.route("/user/<int:user_id>")
 def show_user(user_id):
@@ -149,7 +150,8 @@ def create_item():
     require_login()
 
     if request.method == "GET":
-        return render_template("new_item.html")
+        classes = items.get_all_classes()
+        return render_template("new_item.html", classes=classes)
     
     if request.method == "POST":
         check_csrf()
@@ -158,7 +160,19 @@ def create_item():
             abort(403)
         user_id = session["user_id"]
 
-        items.add_item(title, user_id)
+        all_classes = items.get_all_classes()
+
+        classes = []
+        for entry in request.form.getlist("classes"):
+            if entry:
+                class_title, class_value = entry.split(":")
+                if class_title not in all_classes:
+                    abort(403)
+                if class_value not in all_classes[class_title]:
+                    abort(403)
+                classes.append((class_title, class_value))
+
+        items.add_item(title, user_id, classes)
         return redirect("/")
 
 @app.route("/find_item")

@@ -9,6 +9,17 @@
     <label for="title">Otsikko:</label> <br />
     <input type="text" name="title" id="title" maxlength="50" required />
   </p>
+  {% for class in classes %}
+  <p>
+    <label for="class{{ class }}">{{ class }}:</label> <br />
+    <select name="classes" id="class{{ class }}">
+      <option value="">(valitse)</option>
+    {% for option in classes[class] %}
+      <option value="{{ class }}:{{ option }}">{{ option }}</option>
+    {% endfor %}
+    </select>
+  </p>
+  {% endfor %}
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="submit" value="Luo keskustelu" />
 </form>

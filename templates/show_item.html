@@ -4,6 +4,11 @@
 
 {% block content %}
 <h2>{{ item.title }}</h2>
+{% if classes %}
+  {% for class in classes %}
+  {{ class.title }}: {{ class.value }}
+  {% endfor %}
+{% endif %}
 {% if session.user_id == item.user_id %}
 <p>
   <a href="/edit_item/{{ item.id }}">Muokkaa otsikkoa</a> |
