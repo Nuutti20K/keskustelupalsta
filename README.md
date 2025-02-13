@@ -18,8 +18,12 @@
 * Käyttäjä näkee lisätyt keskustelut
 * Käyttäjä pystyy etsiä keskusteluja otsikolla
 * Käyttäjä pystyy lisäämään viestejä keskusteluun
+	* Viestejä voi muokata ja poistaa
+ 	* Viesteissä ei ole vielä päiväystä 
 * Sovelluksessa on käyttäjäsivut
-	* Sivuilla ei vielä näy muuta kuin käyttäjän nimi
+	* Sivuilla näkyy käyttäjän lisäämät keskustelut sekä viestien ja keskustelujen määrä
+* Keskusteluille voi valita aiheluokittelun
+	* Luokittelu ei vielä näy pääsivulta, vaan vasta kun keskustelu avataan
 
 ## Sovelluksen asennus
 
@@ -33,6 +37,7 @@ Luo tietokannan taulut:
 
 ```
 sqlite3 database.db < schema.sql
+sqlite3 database.db < init.sql
 ```
 
 Sovelluksen voi käynnistää komennolla:
