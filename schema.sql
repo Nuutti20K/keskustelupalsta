@@ -14,5 +14,5 @@ CREATE TABLE messages (
     id INTEGER PRIMARY KEY,
     content TEXT,
     user_id INTEGER REFERENCES users,
-    item_id INTEGER REFERENCES items
+    item_id INTEGER REFERENCES items ON DELETE CASCADE
 )

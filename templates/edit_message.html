@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %}Viestin muokkaus{% endblock %}
+
+{% block content %}
+<h3>Viestin muokkaus</h3>
+<form action="/edit_message/{{ message.id }}" method="post">
+  <p>
+    <label for="content">Uusi viesti:</label> <br />
+    <textarea type="text" name="content" rows="4" cols="50" maxlength="200" required>{{ message.content }}</textarea>
+  </p>
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+  <input type="submit" value="Päivitä viesti" />
+</form>
+<p>
+  <a href="/item/{{ message.item_id }}">Takaisin keskusteluun</a>
+</p>
+{% endblock %}

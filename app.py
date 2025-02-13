@@ -83,6 +83,27 @@ def edit_item(item_id):
         items.update_item(item_id, title)
         return redirect("/item/" + str(item_id))
     
+@app.route("/edit_message/<int:message_id>", methods=["GET", "POST"])
+def edit_message(message_id):
+    require_login()
+
+    message = items.get_message(message_id)
+    if not message:
+        abort(404)
+    if message["user_id"] != session["user_id"]:
+        abort(403)
+    
+    if request.method == "GET":
+        return render_template("edit_message.html", message=message)
+    
+    if request.method == "POST":
+        check_csrf()
+        content = request.form["content"]
+        if not content or len(content) > 300:
+            abort(403)
+        items.update_message(message_id, content)
+        return redirect("/item/" + str(message["item_id"]))
+    
 @app.route("/remove_item/<int:item_id>", methods=["GET", "POST"])
 def remove_item(item_id):
     require_login()
@@ -103,6 +124,25 @@ def remove_item(item_id):
             return redirect("/")
         else:
             return redirect("/item/" + str(item_id))
+        
+@app.route("/remove_message/<int:message_id>", methods=["GET", "POST"])
+def remove_message(message_id):
+    require_login()
+
+    message = items.get_message(message_id)
+    if not message:
+        abort(404)
+    if message["user_id"] != session["user_id"]:
+        abort(403)
+    
+    if request.method == "GET":
+        return render_template("remove_message.html", message=message)
+    
+    if request.method == "POST":
+        check_csrf()
+        if "remove" in request.form:
+            items.remove_message(message_id)
+        return redirect("/item/" + str(message["item_id"]))
 
 @app.route("/new_item", methods=["GET", "POST"])
 def create_item():
@@ -137,6 +177,8 @@ def create_message():
     check_csrf()
 
     content = request.form["content"]
+    if not content or len(content) > 300:
+        abort(403)
     item_id = request.form["item_id"]
     item = items.get_item(item_id)
     if not item:

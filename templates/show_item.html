@@ -10,14 +10,6 @@
   <a href="/remove_item/{{ item.id }}">Poista keskustelu</a>
 </p>
 {% endif %}
-<hr />
-{% for message in messages %}
-<a href="/user/{{ message.user_id }}">{{ message.username }}</a> <br />
-{{ message.content }}
-<hr />
-{% endfor %}
-
-
 {% if session.user_id %}
 <h3>Lisää viesti</h3>
 <form action="/create_message" method="post">
@@ -28,4 +20,14 @@
   <input type="submit" value="Lähetä" />
 </form>
 {% endif %}
+<hr />
+{% for message in messages %}
+<a href="/user/{{ message.user_id }}">{{ message.username }}</a> <br />
+{{ message.content }} <br />
+{% if session.user_id == message.user_id %}
+<a href="/edit_message/{{ message.id }}">Muokkaa</a> |
+<a href="/remove_message/{{ message.id }}">Poista</a>
+{% endif %}
+<hr />
+{% endfor %}
 {% endblock %}
