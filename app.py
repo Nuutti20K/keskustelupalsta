@@ -26,6 +26,8 @@ def index():
 
 @app.route("/register")
 def register():
+    if "user_id" in session:
+        abort(403)
     return render_template("register.html")
 
 @app.route("/create", methods=["POST"])
@@ -224,6 +226,9 @@ def create_message():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    if "user_id" in session:
+        abort(403)
+
     if request.method == "GET":
         return render_template("login.html")
     
