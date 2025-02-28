@@ -1,12 +1,13 @@
 import db
 
 def add_message(content, user_id, thread_id):
-    sql = """INSERT INTO messages (content, user_id, thread_id)
-             VALUES (?, ?, ?)"""
+    sql = """INSERT INTO messages (content, sent_at, user_id, thread_id)
+             VALUES (?, datetime('now', 'localtime'), ?, ?)"""
     db.execute(sql, [content, user_id, thread_id])
 
 def get_messages(thread_id):
-    sql = """SELECT messages.id, messages.content, messages.user_id, users.username
+    sql = """SELECT messages.id, messages.content, messages.sent_at,
+             messages.user_id, users.username
              FROM messages, users
              WHERE messages.thread_id = ? AND messages.user_id = users.id
              ORDER BY messages.id DESC"""

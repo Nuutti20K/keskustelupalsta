@@ -13,6 +13,7 @@ CREATE TABLE threads (
 CREATE TABLE messages (
     id INTEGER PRIMARY KEY,
     content TEXT,
+    sent_at TEXT,
     user_id INTEGER REFERENCES users,
     thread_id INTEGER REFERENCES threads ON DELETE CASCADE
 );

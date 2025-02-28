@@ -27,8 +27,11 @@
 {% endif %}
 <hr />
 {% for message in messages %}
-<a href="/user/{{ message.user_id }}">{{ message.username }}</a> <br />
-{{ message.content }} <br />
+<p id="{{ message.id }}">
+  <a href="/user/{{ message.user_id }}">{{ message.username }}</a> |
+  Lähetetty: {{ message.sent_at }} <br />
+  {{ message.content }} <br />
+</p>
 {% if session.user_id == message.user_id %}
 <a href="/edit_message/{{ message.id }}">Muokkaa</a> |
 <a href="/remove_message/{{ message.id }}">Poista</a>

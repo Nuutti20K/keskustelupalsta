@@ -21,7 +21,8 @@
     <p>
       {{ message.content }} <br />
       Keskustelu:
-      <a href="/thread/{{ message.thread_id }}">{{ message.title }}</a>
+      <a href="/thread/{{ message.thread_id }}#{{ message.id }}">{{ message.title }}</a> <br />
+      Lähetetty: {{ message.sent_at }}
     </p>
   </li>
   {% endfor %}
