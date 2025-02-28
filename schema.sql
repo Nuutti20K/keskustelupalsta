@@ -4,7 +4,7 @@ CREATE TABLE users (
     password_hash TEXT
 );
 
-CREATE TABLE items (
+CREATE TABLE threads (
     id INTEGER PRIMARY KEY,
     title TEXT,
     user_id INTEGER REFERENCES users
@@ -14,7 +14,7 @@ CREATE TABLE messages (
     id INTEGER PRIMARY KEY,
     content TEXT,
     user_id INTEGER REFERENCES users,
-    item_id INTEGER REFERENCES items ON DELETE CASCADE
+    thread_id INTEGER REFERENCES threads ON DELETE CASCADE
 );
 
 CREATE TABLE classes (
@@ -23,9 +23,9 @@ CREATE TABLE classes (
     value TEXT
 );
 
-CREATE TABLE item_classes (
+CREATE TABLE thread_classes (
     id INTEGER PRIMARY KEY,
-    item_id INTEGER REFERENCES items ON DELETE CASCADE,
+    thread_id INTEGER REFERENCES threads ON DELETE CASCADE,
     title TEXT,
     value TEXT
 );

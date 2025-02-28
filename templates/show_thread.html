@@ -1,18 +1,18 @@
 {% extends "layout.html" %}
 
-{% block title %}{{ item.title }}{% endblock %}
+{% block title %}{{ thread.title }}{% endblock %}
 
 {% block content %}
-<h2>{{ item.title }}</h2>
+<h2>{{ thread.title }}</h2>
 {% if classes %}
   {% for class in classes %}
   {{ class.title }}: {{ class.value }}
   {% endfor %}
 {% endif %}
-{% if session.user_id == item.user_id %}
+{% if session.user_id == thread.user_id %}
 <p>
-  <a href="/edit_item/{{ item.id }}">Muokkaa keskustelua</a> |
-  <a href="/remove_item/{{ item.id }}">Poista keskustelu</a>
+  <a href="/edit_thread/{{ thread.id }}">Muokkaa keskustelua</a> |
+  <a href="/remove_thread/{{ thread.id }}">Poista keskustelu</a>
 </p>
 {% endif %}
 {% if session.user_id %}
@@ -20,7 +20,7 @@
 <form action="/create_message" method="post">
   <label for="content">Viesti:</label>
   <textarea type="text" name="content" id="content" rows="4" cols="50" maxlength="200" required></textarea>
-  <input type="hidden" name="item_id" value="{{ item.id }}">
+  <input type="hidden" name="thread_id" value="{{ thread.id }}">
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="submit" value="Lähetä" />
 </form>

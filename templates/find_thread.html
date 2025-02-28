@@ -5,7 +5,7 @@
 {% block content %}
 <h2>Etsi keskustelu</h2>
 
-<form action="/find_item" method="get">
+<form action="/find_thread" method="get">
   <p>
     <label for="query">Hakusana:</label>
     <input type="text" name="query" id="query" value="{{ query }}">
@@ -17,8 +17,8 @@
 <h3>Haku tulokset</h3>
 
 <ul>
-  {% for item in results %}
-  <li><a href="/item/{{ item.id }}">{{ item.title }}</a></li>
+  {% for thread in results %}
+  <li><a href="/thread/{{ thread.id }}">{{ thread.title }}</a></li>
   {% endfor %}
 </ul>
 {% endif %}

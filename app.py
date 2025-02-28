@@ -3,7 +3,8 @@ import sqlite3
 from flask import Flask
 from flask import abort, flash, render_template, request, redirect, session
 import config
-import items
+import threads
+import messages
 import users
 
 app = Flask(__name__)
@@ -21,8 +22,8 @@ def check_csrf():
 
 @app.route("/")
 def index():
-    all_items = items.get_items()
-    return render_template("index.html", items=all_items)
+    all_threads = threads.get_threads()
+    return render_template("index.html", threads=all_threads)
 
 @app.route("/register")
 def register():
@@ -47,43 +48,43 @@ def create():
     
     return redirect("/")
 
-@app.route("/item/<int:item_id>")
-def show_item(item_id):
-    item = items.get_item(item_id)
-    if not item:
+@app.route("/thread/<int:thread_id>")
+def show_thread(thread_id):
+    thread = threads.get_thread(thread_id)
+    if not thread:
         abort(404)
-    classes = items.get_classes(item_id)
-    messages = items.get_messages(item_id)
-    return render_template("show_item.html", item=item, classes=classes, messages=messages)
+    classes = threads.get_classes(thread_id)
+    thread_messages = messages.get_messages(thread_id)
+    return render_template("show_thread.html", thread=thread, classes=classes, messages=thread_messages)
 
 @app.route("/user/<int:user_id>")
 def show_user(user_id):
     user = users.get_user(user_id)
     if not user:
         abort(404)
-    user_items = users.get_items(user_id)
-    user_messages = users.get_messages(user_id)
-    return render_template("show_user.html", user=user, items=user_items, messages=user_messages)
+    user_threads = users.get_threads(user_id)
+    user_messages = messages.get_messages(user_id)
+    return render_template("show_user.html", user=user, threads=user_threads, messages=user_messages)
 
-@app.route("/edit_item/<int:item_id>", methods=["GET", "POST"])
-def edit_item(item_id):
+@app.route("/edit_thread/<int:thread_id>", methods=["GET", "POST"])
+def edit_thread(thread_id):
     require_login()
 
-    item = items.get_item(item_id)
-    if not item:
+    thread = threads.get_thread(thread_id)
+    if not thread:
         abort(404)
-    if item["user_id"] != session["user_id"]:
+    if thread["user_id"] != session["user_id"]:
         abort(403)
     
     if request.method == "GET":
-        all_classes = items.get_all_classes()
+        all_classes = threads.get_all_classes()
         classes = {}
         for my_class in all_classes:
             classes[my_class] = ""
-        for entry in items.get_classes(item_id):
+        for entry in threads.get_classes(thread_id):
             classes[entry["title"]] = entry["value"]
         
-        return render_template("edit_item.html", item=item, classes=classes, all_classes=all_classes)
+        return render_template("edit_thread.html", thread=thread, classes=classes, all_classes=all_classes)
     
     if request.method == "POST":
         check_csrf()
@@ -91,7 +92,7 @@ def edit_item(item_id):
         if not title or len(title) > 50:
             abort(403)
 
-        all_classes = items.get_all_classes()
+        all_classes = threads.get_all_classes()
 
         classes = []
         for entry in request.form.getlist("classes"):
@@ -103,14 +104,14 @@ def edit_item(item_id):
                     abort(403)
                 classes.append((class_title, class_value))
 
-        items.update_item(item_id, title, classes)
-        return redirect("/item/" + str(item_id))
+        threads.update_thread(thread_id, title, classes)
+        return redirect("/thread/" + str(thread_id))
     
 @app.route("/edit_message/<int:message_id>", methods=["GET", "POST"])
 def edit_message(message_id):
     require_login()
 
-    message = items.get_message(message_id)
+    message = messages.get_message(message_id)
     if not message:
         abort(404)
     if message["user_id"] != session["user_id"]:
@@ -124,35 +125,35 @@ def edit_message(message_id):
         content = request.form["content"]
         if not content or len(content) > 300:
             abort(403)
-        items.update_message(message_id, content)
-        return redirect("/item/" + str(message["item_id"]))
+        messages.update_message(message_id, content)
+        return redirect("/thread/" + str(message["thread_id"]))
     
-@app.route("/remove_item/<int:item_id>", methods=["GET", "POST"])
-def remove_item(item_id):
+@app.route("/remove_thread/<int:thread_id>", methods=["GET", "POST"])
+def remove_thread(thread_id):
     require_login()
 
-    item = items.get_item(item_id)
-    if not item:
+    thread = threads.get_thread(thread_id)
+    if not thread:
         abort(404)
-    if item["user_id"] != session["user_id"]:
+    if thread["user_id"] != session["user_id"]:
         abort(403)
     
     if request.method == "GET":
-        return render_template("remove_item.html", item=item)
+        return render_template("remove_thread.html", thread=thread)
     
     if request.method == "POST":
         check_csrf()
         if "remove" in request.form:
-            items.remove_item(item_id)
+            threads.remove_thread(thread_id)
             return redirect("/")
         else:
-            return redirect("/item/" + str(item_id))
+            return redirect("/thread/" + str(thread_id))
         
 @app.route("/remove_message/<int:message_id>", methods=["GET", "POST"])
 def remove_message(message_id):
     require_login()
 
-    message = items.get_message(message_id)
+    message = messages.get_message(message_id)
     if not message:
         abort(404)
     if message["user_id"] != session["user_id"]:
@@ -164,16 +165,16 @@ def remove_message(message_id):
     if request.method == "POST":
         check_csrf()
         if "remove" in request.form:
-            items.remove_message(message_id)
-        return redirect("/item/" + str(message["item_id"]))
+            messages.remove_message(message_id)
+        return redirect("/thread/" + str(message["thread_id"]))
 
-@app.route("/new_item", methods=["GET", "POST"])
-def create_item():
+@app.route("/new_thread", methods=["GET", "POST"])
+def create_thread():
     require_login()
 
     if request.method == "GET":
-        classes = items.get_all_classes()
-        return render_template("new_item.html", classes=classes)
+        classes = threads.get_all_classes()
+        return render_template("new_thread.html", classes=classes)
     
     if request.method == "POST":
         check_csrf()
@@ -182,7 +183,7 @@ def create_item():
             abort(403)
         user_id = session["user_id"]
 
-        all_classes = items.get_all_classes()
+        all_classes = threads.get_all_classes()
 
         classes = []
         for entry in request.form.getlist("classes"):
@@ -194,18 +195,18 @@ def create_item():
                     abort(403)
                 classes.append((class_title, class_value))
 
-        items.add_item(title, user_id, classes)
+        threads.add_thread(title, user_id, classes)
         return redirect("/")
 
-@app.route("/find_item")
-def find_item():
+@app.route("/find_thread")
+def find_thread():
     query = request.args.get("query")
     if query:
-        results = items.find_items(query)
+        results = threads.find_threads(query)
     else:
         query = ""
         results = []
-    return render_template("find_item.html", query=query, results=results)
+    return render_template("find_thread.html", query=query, results=results)
 
 @app.route("/create_message", methods=["POST"])
 def create_message():
@@ -215,14 +216,14 @@ def create_message():
     content = request.form["content"]
     if not content or len(content) > 300:
         abort(403)
-    item_id = request.form["item_id"]
-    item = items.get_item(item_id)
-    if not item:
+    thread_id = request.form["thread_id"]
+    thread = threads.get_thread(thread_id)
+    if not thread:
         abort(403)
     user_id = session["user_id"]
 
-    items.add_message(content, user_id, item_id)
-    return redirect("/item/" + str(item_id))
+    messages.add_message(content, user_id, thread_id)
+    return redirect("/thread/" + str(thread_id))
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

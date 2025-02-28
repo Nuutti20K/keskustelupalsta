@@ -3,10 +3,10 @@
 {% block title %}Keskusteluketjun poisto{% endblock %}
 
 {% block content %}
-<h2>{{ item.title }}</h2>
+<h2>{{ thread.title }}</h2>
 <h3>Keskusteluketjun poisto</h3>
 <p>Haluatko varmasti poistaa tämän ketjun?</p>
-<form action="/remove_item/{{ item.id }}" method="post">
+<form action="/remove_thread/{{ thread.id }}" method="post">
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="submit" name="remove" value="Poista ketju">
   <input type="submit" name="back" value="Palaa takaisin">

@@ -3,12 +3,12 @@
 {% block title %}Keskustelun muokkaus{% endblock %}
 
 {% block content %}
-<h2>{{ item.title }}</h2>
+<h2>{{ thread.title }}</h2>
 <h3>Keskustelun muokkaus</h3>
-<form action="/edit_item/{{ item.id }}" method="post">
+<form action="/edit_thread/{{ thread.id }}" method="post">
   <p>
     <label for="title">Uusi otsikko:</label> <br />
-    <input type="text" name="title" id="title" value="{{ item.title }}" maxlength="50" required />
+    <input type="text" name="title" id="title" value="{{ thread.title }}" maxlength="50" required />
   </p>
   {% for class in all_classes %}
   <p>
@@ -29,6 +29,6 @@
   <input type="submit" value="Päivitä keskustelu" />
 </form>
 <p>
-  <a href="/item/{{ item.id }}">Takaisin keskusteluun</a>
+  <a href="/thread/{{ thread.id }}">Takaisin keskusteluun</a>
 </p>
 {% endblock %}
