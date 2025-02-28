@@ -12,7 +12,10 @@ def get_threads(user_id):
     return db.query(sql, [user_id])
 
 def get_messages(user_id):
-    sql = "SELECT id, content FROM messages WHERE user_id = ? ORDER BY id DESC"
+    sql = """SELECT messages.id, messages.content, messages.thread_id, threads.title
+             FROM messages JOIN threads ON messages.thread_id = threads.id
+             WHERE messages.user_id = ?
+             ORDER BY messages.id DESC"""
     return db.query(sql, [user_id])
 
 def create_user(username, password):

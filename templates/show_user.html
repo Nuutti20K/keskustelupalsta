@@ -13,4 +13,17 @@
   <li><a href="/thread/{{ thread.id }}">{{ thread.title }}</a></li>
   {% endfor %}
 </ul>
+<hr />
+<h3>Käyttäjän lähettämät viestit</h3>
+<ul>
+  {% for message in messages %}
+  <li>
+    <p>
+      {{ message.content }} <br />
+      Keskustelu:
+      <a href="/thread/{{ message.thread_id }}">{{ message.title }}</a>
+    </p>
+  </li>
+  {% endfor %}
+</ul>
 {% endblock %}

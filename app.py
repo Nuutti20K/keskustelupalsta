@@ -63,7 +63,7 @@ def show_user(user_id):
     if not user:
         abort(404)
     user_threads = users.get_threads(user_id)
-    user_messages = messages.get_messages(user_id)
+    user_messages = users.get_messages(user_id)
     return render_template("show_user.html", user=user, threads=user_threads, messages=user_messages)
 
 @app.route("/edit_thread/<int:thread_id>", methods=["GET", "POST"])
