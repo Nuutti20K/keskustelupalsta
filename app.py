@@ -34,8 +34,14 @@ def register():
 @app.route("/create", methods=["POST"])
 def create():
     username = request.form["username"]
+    if not username or len(username) > 30:
+        abort(403)
     password1 = request.form["password1"]
+    if not password1:
+        abort(403)
     password2 = request.form["password2"]
+    if not password2:
+        abort(403)
     if password1 != password2:
         flash("VIRHE: salasanat eivät ole samat!")
         return redirect("/register")
