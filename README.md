@@ -13,17 +13,15 @@
 ## Sovelluksen nykyinen tilanne
 
 * Käyttäjä pystyy luomaan tunnuksen ja kirjautumaan sisään ja ulos sovelluksesta
-	* Salasanassa ja tunnuksessa ei ole vielä merkki- tai pituusrajoituksia
 * Käyttäjä pystyy lisäämään, muokkaamaan ja poistamaan keskusteluja
 * Käyttäjä näkee lisätyt keskustelut
 * Käyttäjä pystyy etsiä keskusteluja otsikolla
 * Käyttäjä pystyy lisäämään viestejä keskusteluun
 	* Viestejä voi muokata ja poistaa
- 	* Viesteissä ei ole vielä päiväystä 
 * Sovelluksessa on käyttäjäsivut
-	* Sivuilla näkyy käyttäjän lisäämät keskustelut sekä viestien ja keskustelujen määrä
+	* Sivuilla näkyy käyttäjän lisäämät keskustelut ja lähetetyt viestit
+	* Sivuilla näkyy käyttäjän viestien ja keskustelujen määrä
 * Keskusteluille voi valita aiheluokittelun
-	* Luokittelu ei vielä näy pääsivulta, vaan vasta kun keskustelu avataan
 
 ## Sovelluksen asennus
 
